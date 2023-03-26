@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
     BelongsToMany,
     Column,
@@ -14,10 +15,11 @@ interface RoleCreationAttrs {
 }
 
 /**
-    * Модель роли пользователя
+ * Модель роли пользователя
  */
 @Table({ tableName: 'roles' })
 export class Role extends Model<Role, RoleCreationAttrs> {
+    @ApiProperty({ example: '1', description: 'Уникальный идентификатор роли' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -26,9 +28,17 @@ export class Role extends Model<Role, RoleCreationAttrs> {
     })
     id: number;
 
+    @ApiProperty({
+        example: 'SELLER',
+        description: 'Наименование роли пользователя',
+    })
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
     value: string;
 
+    @ApiProperty({
+        example: 'Продавец',
+        description: 'Описание роли пользователя',
+    })
     @Column({ type: DataType.STRING, allowNull: false })
     description: string;
 

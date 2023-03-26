@@ -1,7 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRoleDto } from './dto/create-role.dto';
+import { Role } from './roles.model';
 import { RolesService } from './roles.service';
 
+@ApiTags('Роли')
 @Controller('roles')
 export class RolesController {
     // Инъекция сервиса модели Role
@@ -11,15 +14,18 @@ export class RolesController {
      * Endpoint для post запроса на создание объекта модели Role
      * @param {CreateRoleDto} roleDto DTO для модели Role
      */
+    @ApiOperation({ summary: 'Создание новой роли' })
+    @ApiResponse({ status: 200, type: Role })
     @Post()
     create(@Body() roleDto: CreateRoleDto) {
         return this.roleService.createRole(roleDto);
     }
 
     /**
-     * Endpoint для get запроса на получение объекта модели Role по полю value
-     * @param {string} value Поле value в модели Role
+     * Endpoint для get запроса на получение всех объектов модели Role
      */
+    @ApiOperation({ summary: 'Получить список всех ролей' })
+    @ApiResponse({ status: 200, type: [Role] })
     @Get()
     getAll() {
         return this.roleService.getAllRoles();
@@ -29,6 +35,8 @@ export class RolesController {
      * Endpoint для get запроса на получение объекта модели Role по полю value
      * @param {string} value Поле value в модели Role
      */
+    @ApiOperation({ summary: 'Получить роль по полю value' })
+    @ApiResponse({ status: 200, type: Role })
     @Get('/:value')
     getByValue(@Param('value') value: string) {
         return this.roleService.getRoleByValue(value);
