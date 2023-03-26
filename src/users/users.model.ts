@@ -1,4 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+    BelongsToMany,
+    Column,
+    DataType,
+    Model,
+    Table,
+} from 'sequelize-typescript';
+import { Role } from 'src/roles/roles.model';
+import { UserRoles } from 'src/user_roles/user-roles.model';
 
 // Интерфейс с атрибутами, которые требуются для создания записи в БД
 interface UserCreationAttrs {
@@ -21,4 +29,7 @@ export class User extends Model<User, UserCreationAttrs> {
 
     @Column({ type: DataType.STRING, allowNull: false })
     password: string;
+
+    @BelongsToMany(() => Role, () => UserRoles)
+    roles: Role[];
 }

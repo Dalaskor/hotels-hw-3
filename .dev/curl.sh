@@ -14,7 +14,7 @@
 # Create Role
 # curl -v localhost:5000/roles \
 #     -H "Content-Type: application/json" \
-#     -d '{"value": "testRole1", "description": "description of this role"}' \
+#     -d '{"value": "ADMIN", "description": "Admin for testing"}' \
 #     | jq
 
 # List all roles
