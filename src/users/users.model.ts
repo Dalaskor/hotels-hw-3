@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
     BelongsToMany,
     Column,
@@ -14,8 +15,15 @@ interface UserCreationAttrs {
     password: string;
 }
 
+/**
+    * Модель пользователя
+ */
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
+    @ApiProperty({
+        example: '1',
+        description: 'Уникальный идентификатор пользователя',
+    })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -24,9 +32,17 @@ export class User extends Model<User, UserCreationAttrs> {
     })
     id: number;
 
+    @ApiProperty({
+        example: 'user@mail.ru',
+        description: 'Электронная почта пользователя',
+    })
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
     email: string;
 
+    @ApiProperty({
+        example: 'password12345',
+        description: 'Пароль пользователя',
+    })
     @Column({ type: DataType.STRING, allowNull: false })
     password: string;
 

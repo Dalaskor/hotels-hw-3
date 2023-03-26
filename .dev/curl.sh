@@ -3,13 +3,13 @@
 # Create User
 # curl -v localhost:5000/users \
 #     -H "Content-Type: application/json" \
-#     -d '{"email": "test1@mail.ru", "password":"test"}' \
+#     -d '{"email": "user1@mail.ru", "password":"password"}' \
 #     | jq
 
 # List all users
-# curl -v localhost:5000/users \
-#     -H "Content-Type: application/json" \
-#     | jq
+curl -v localhost:5000/users \
+    -H "Content-Type: application/json" \
+    | jq
 
 # Create Role
 # curl -v localhost:5000/roles \

@@ -13,6 +13,9 @@ interface RoleCreationAttrs {
     description: string;
 }
 
+/**
+    * Модель роли пользователя
+ */
 @Table({ tableName: 'roles' })
 export class Role extends Model<Role, RoleCreationAttrs> {
     @Column({
