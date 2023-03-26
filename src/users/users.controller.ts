@@ -31,6 +31,8 @@ export class UsersController {
      */
     @ApiOperation({ summary: 'Получить список всех пользователей' })
     @ApiResponse({ status: 200, type: [User] })
+    @Roles(ROLES.ADMIN)
+    @UseGuards(RolesGuard)
     @Get()
     getAll() {
         return this.usersService.getAllUsers();
