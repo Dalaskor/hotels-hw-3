@@ -9,9 +9,9 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     | jq
 
 # List all users
-curl -v localhost:5000/users \
-    -H "Content-Type: application/json" \
-    | jq
+# curl -v localhost:5000/users \
+#     -H "Content-Type: application/json" \
+#     | jq
 
 # Create Role
 # curl -v localhost:5000/roles \
@@ -25,12 +25,18 @@ curl -v localhost:5000/users \
 #     | jq
 
 # Get role by value
-# curl -v localhost:5000/roles/testRole1 \
-#     -H "Content-Type: application/json" \
-#     | jq
+curl -v 'localhost:5000/roles/USER' \
+    -H "Content-Type: application/json" \
+    | jq
 
 # Registration user
 # curl -v localhost:5000/auth/registration \
 #     -H "Content-Type: application/json" \
 #     -d '{"email": "admin1@mail.ru", "password": "password"}' \
+#     | jq
+
+# List all users with JWT
+# curl -v localhost:5000/users \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $token" \
 #     | jq
