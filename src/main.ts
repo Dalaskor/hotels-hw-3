@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ValidationPipe } from './pipes/validation.pipe';
+// import { ValidationPipe } from './pipes/validation.pipe';
 
 /**
  * Запуск сервера
@@ -22,8 +22,9 @@ const start = async () => {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/api/docs', app, document);
 
+    // Крашиться при запросе списка ролей
     // Подключение валидации
-    app.useGlobalPipes(new ValidationPipe());
+    // app.useGlobalPipes(new ValidationPipe());
 
     // Старт сервера
     app.listen(PORT, () => {

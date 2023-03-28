@@ -4,7 +4,7 @@ import { validate } from 'class-validator';
 import { ValidationException } from 'src/exceptions/validation.exception';
 
 /**
- * Pipe для валидации данных
+ * Pipe для валидации входных данных
  */
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {

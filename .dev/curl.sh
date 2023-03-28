@@ -1,6 +1,6 @@
 #!/bin/sh
 
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1IiwiaWQiOjMsInJvbGVzIjpbeyJpZCI6NCwidmFsdWUiOiJBRE1JTiIsImRlc2NyaXB0aW9uIjoiQWRtaW4gZm9yIHRlc3RpbmciLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTI2VDA3OjMwOjI2LjgwMloiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTI2VDA3OjMwOjI2LjgwMloifV0sImlhdCI6MTY3OTg0NDE4MywiZXhwIjoxNjc5OTMwNTgzfQ.2UGZvht8p9TwbOJJk8QFQ6Be5TIKPaOI3w0WG8RlOas"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQG1haWwucnUiLCJpZCI6Miwicm9sZXMiOlt7ImlkIjoyLCJ2YWx1ZSI6IlVTRVIiLCJkZXNjcmlwdGlvbiI6IkFkbWluIGZvciB0ZXN0aW5nIiwiY3JlYXRlZEF0IjoiMjAyMy0wMy0yOFQwNTo0NTo1NS41MzRaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0yOFQwNTo0NTo1NS41MzRaIiwiVXNlclJvbGVzIjp7ImlkIjoxLCJyb2xlSWQiOjIsInVzZXJJZCI6Mn19LHsiaWQiOjEsInZhbHVlIjoiQURNSU4iLCJkZXNjcmlwdGlvbiI6IkFkbWluIGZvciB0ZXN0aW5nIiwiY3JlYXRlZEF0IjoiMjAyMy0wMy0yOFQwNTo0NTo0MS4wMzdaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0yOFQwNTo0NTo0MS4wMzdaIiwiVXNlclJvbGVzIjp7ImlkIjo1LCJyb2xlSWQiOjEsInVzZXJJZCI6Mn19XSwiaWF0IjoxNjc5OTgzOTQ1LCJleHAiOjE2ODAwNzAzNDV9.Yk787sGphn4KAzARz5gUd0shpyTnLwhmgsvoV-syzp0"
 
 # Create User
 # curl -v localhost:5000/users \
@@ -16,7 +16,7 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 # Create Role
 # curl -v localhost:5000/roles \
 #     -H "Content-Type: application/json" \
-#     -d '{"value": "ADMIN", "description": "Admin for testing"}' \
+#     -d '{"value": "USER", "description": "Admin for testing"}' \
 #     | jq
 
 # List all roles
@@ -25,18 +25,31 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     | jq
 
 # Get role by value
-curl -v 'localhost:5000/roles/USER' \
-    -H "Content-Type: application/json" \
-    | jq
+# curl -v 'localhost:5000/roles/USER' \
+#     -H "Content-Type: application/json" \
+#     | jq
 
 # Registration user
 # curl -v localhost:5000/auth/registration \
 #     -H "Content-Type: application/json" \
-#     -d '{"email": "admin1@mail.ru", "password": "password"}' \
+#     -d '{"email": "user3@mail.ru", "password": "password"}' \
+#     | jq
+
+# Login user
+# curl -v localhost:5000/auth/login \
+#     -H "Content-Type: application/json" \
+#     -d '{"email": "user1@mail.ru", "password": "password"}' \
 #     | jq
 
 # List all users with JWT
 # curl -v localhost:5000/users \
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
+#     | jq
+
+# Add role to user with JWT
+# curl -v localhost:5000/users/role \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $token" \
+#     -d '{"value": "ADMIN", "userId": "2"}' \
 #     | jq
