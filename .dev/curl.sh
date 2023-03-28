@@ -68,13 +68,20 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     | jq
 
 # Get profile by id with JWT
-curl -v localhost:5000/profile/7 \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $token" \
-    | jq
+# curl -v localhost:5000/profile/7 \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $token" \
+#     | jq
 
 # Get profile by id with JWT
 # curl -v localhost:5000/users/7 \
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
 #     | jq
+
+# Update profile by id with JWT
+# curl -v localhost:5000/profile \
+#      -H "Content-Type: application/json" \
+#      -H "Authorization: Bearer $token" \
+#      -d '{"name": "Valera", "userId": "6"}' \
+#      | jq

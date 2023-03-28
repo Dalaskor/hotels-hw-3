@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './profile.model';
 
 @Injectable()
@@ -31,5 +32,30 @@ export class ProfileService {
         });
 
         return profile;
+    }
+
+    /**
+     * Сервис для редактирования объекта модели Profile
+     * @param {CreateProfileDto} dto DTO с данными для Profile
+     */
+    async updateProfile(dto: UpdateProfileDto) {
+        const profile = await this.getById(dto.userId);
+
+        if (profile) {
+            profile.set('name', dto.name);
+            profile.set('surname', dto.surname);
+            profile.set('middlename', dto.middlename);
+            profile.set('phone', dto.phone);
+            profile.set('location', dto.location);
+            profile.set('bio', dto.bio);
+            profile.save();
+
+            return dto;
+        }
+
+        throw new HttpException(
+            'Пользователь или роль не найдены',
+            HttpStatus.NOT_FOUND,
+        );
     }
 }
