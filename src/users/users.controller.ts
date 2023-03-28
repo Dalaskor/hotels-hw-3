@@ -50,4 +50,16 @@ export class UsersController {
     addRole(@Body() dto: AddRoleDto) {
         return this.usersService.addRole(dto);
     }
+
+    /**
+     * Endpoint для post запроса на присвоение новой роли пользователю
+     */
+    @ApiOperation({ summary: 'Удалить роль пользователю' })
+    @ApiResponse({ status: 200 })
+    @Roles(ROLES.ADMIN)
+    @UseGuards(RolesGuard)
+    @Post('/role-remove')
+    removeRole(@Body() dto: AddRoleDto) {
+        return this.usersService.removeRole(dto);
+    }
 }

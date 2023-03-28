@@ -70,4 +70,23 @@ export class UsersService {
             HttpStatus.NOT_FOUND,
         );
     }
+
+    /**
+     * Сервис для удаления роли у пользователя
+     * @param {AddRoleDto} dto DTO для присвоения роли пользователию
+     */
+    async removeRole(dto: AddRoleDto) {
+        const user = await this.userRepository.findByPk(dto.userId);
+        const role = await this.roleService.getRoleByValue(dto.value);
+
+        if (role && user) {
+            await user.$remove('role', role.id);
+            return dto;
+        }
+
+        throw new HttpException(
+            'Пользователь или роль не найдены',
+            HttpStatus.NOT_FOUND,
+        );
+    }
 }
