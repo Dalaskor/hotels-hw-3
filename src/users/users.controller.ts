@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -37,6 +37,17 @@ export class UsersController {
     @Get()
     getAll() {
         return this.usersService.getAllUsers();
+    }
+
+    /**
+     * Endpoint для get запроса на получение пользователя по id
+     * @param {number} id Идентификатор пользователя в модели User
+     */
+    @ApiOperation({ summary: 'Получить пользователя по id' })
+    @ApiResponse({ status: 200, type: User })
+    @Get('/:id')
+    getById(@Param('id') id: number) {
+        return this.usersService.getUserById(id);
     }
 
     /**

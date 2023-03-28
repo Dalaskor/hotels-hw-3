@@ -15,7 +15,7 @@ export class UsersService {
     ) {}
 
     /**
-     * Сервис для создания объекта User
+     * Сервис для создания объекта модели User
      * @param {CreateUserDto} dto DTO для создания объекта модели User
      */
     async CreateUser(dto: CreateUserDto) {
@@ -41,13 +41,19 @@ export class UsersService {
 
     /**
      * Сервис для получения объекта User по полю email
-     * @param {string} email Поле для электронной почты в объекте User
+     * @param {string} email Поле email в объекте User
      */
     async getUserByEmail(email: string) {
-        const user = await this.userRepository.findOne({
-            where: { email },
-            include: { all: true },
-        });
+        const user = await this.userRepository.findOne({where: {email}, include: {all: true}})
+        return user;
+    }
+
+    /**
+     * Сервис для получения объекта User по идентификатору
+     * @param {number} id Поле для идентификатора в объекте User
+     */
+    async getUserById(id: number) {
+        const user = await this.userRepository.findByPk(id);
 
         return user;
     }

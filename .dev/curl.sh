@@ -1,6 +1,6 @@
 #!/bin/sh
 
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1IiwiaWQiOjMsInJvbGVzIjpbeyJpZCI6MSwidmFsdWUiOiJBRE1JTiIsImRlc2NyaXB0aW9uIjoiQWRtaW4gZm9yIHRlc3RpbmciLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJVc2VyUm9sZXMiOnsiaWQiOjIsInJvbGVJZCI6MSwidXNlcklkIjozfX1dLCJpYXQiOjE2Nzk5ODUwNzIsImV4cCI6MTY4MDA3MTQ3Mn0.TQnlV37QZzLrrk2gq1RGyRvNRxRpLQRCZWBGDzEPUgw"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1IiwiaWQiOjMsInJvbGVzIjpbeyJpZCI6MSwidmFsdWUiOiJBRE1JTiIsImRlc2NyaXB0aW9uIjoiQWRtaW4gZm9yIHRlc3RpbmciLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJVc2VyUm9sZXMiOnsiaWQiOjIsInJvbGVJZCI6MSwidXNlcklkIjozfX1dLCJpYXQiOjE2Nzk5OTA3NTEsImV4cCI6MTY4MDA3NzE1MX0.dukQdzkpEVJRTuSpNE0R2Ec3G87fepuZk2csv6yOfzY"
 
 # Create User
 # curl -v localhost:5000/users \
@@ -32,7 +32,13 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 # Registration user
 # curl -v localhost:5000/auth/registration \
 #     -H "Content-Type: application/json" \
-#     -d '{"email": "user3@mail.ru", "password": "password"}' \
+#     -d '{"email": "profileuser1@mail.ru", "password": "password"}' \
+#     | jq
+
+# Registration user with profile
+# curl -v localhost:5000/auth/registration \
+#     -H "Content-Type: application/json" \
+#     -d '{"email": "profileuser2@mail.ru", "password": "password", "name": "Ivan"}'
 #     | jq
 
 # Login user
@@ -59,4 +65,16 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
 #     -d '{"value": "ADMIN", "userId": "2"}' \
+#     | jq
+
+# Get profile by id with JWT
+curl -v localhost:5000/profile/7 \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $token" \
+    | jq
+
+# Get profile by id with JWT
+# curl -v localhost:5000/users/7 \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $token" \
 #     | jq
