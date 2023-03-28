@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    HttpException,
+    HttpStatus,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -9,6 +15,7 @@ export class ProfileService {
     // Инъекции
     constructor(
         @InjectModel(Profile) private profileRepository: typeof Profile,
+        private jwtService: JwtService,
     ) {}
 
     /**
@@ -25,13 +32,19 @@ export class ProfileService {
      * Сервис для получения объекта Profile по идентификатору модели User
      * @param {number} fk_profileid Идентификатор пользователя из модели User
      */
-    async getById(fk_profileid: number) {
+    async getById(fk_profileid: number, req) {
         const profile = await this.profileRepository.findOne({
             where: { fk_profileid },
             include: { all: true },
         });
 
-        return profile;
+        const user = this.getUserFromReq(req);
+
+        if (user.id === profile.fk_profileid) {
+            return profile;
+        }
+
+        throw new HttpException('Нет доступа', HttpStatus.FORBIDDEN);
     }
 
     /**
@@ -39,7 +52,11 @@ export class ProfileService {
      * @param {CreateProfileDto} dto DTO с данными для Profile
      */
     async updateProfile(dto: UpdateProfileDto) {
-        const profile = await this.getById(dto.userId);
+        // const profile = await this.getById(dto.userId, 'gg');
+        const profile = await this.profileRepository.findOne({
+            where: { fk_profileid: dto.userId },
+            include: { all: true },
+        });
 
         if (profile) {
             profile.set('name', dto.name);
@@ -57,5 +74,21 @@ export class ProfileService {
             'Пользователь или роль не найдены',
             HttpStatus.NOT_FOUND,
         );
+    }
+
+    getUserFromReq(req) {
+        const authHeader = req.headers.authorization;
+        const bearer = authHeader.split(' ')[0];
+        const token = authHeader.split(' ')[1];
+
+        if (bearer !== 'Bearer' || !token) {
+            throw new UnauthorizedException({
+                message: 'Пользователь не авторизован',
+            });
+        }
+
+        const user = this.jwtService.verify(token);
+
+        return user;
     }
 }

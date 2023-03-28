@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './profile.model';
@@ -21,7 +21,7 @@ export class ProfileController {
     })
     @ApiResponse({ status: 200, type: Profile })
     @Get('/:id')
-    getById(@Param('id') id: number) {
-        return this.profileService.getById(id);
+    getById(@Req() req, @Param('id') id: number) {
+        return this.profileService.getById(id, req);
     }
 }
