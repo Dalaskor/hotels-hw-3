@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Model } from 'sequelize';
-import { Column, DataType, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 interface TextblockCreationAttrs {
     name: string;
@@ -11,7 +10,7 @@ interface TextblockCreationAttrs {
 }
 
 @Table({ tableName: 'textblocks' })
-export class Textblock extends Model<Model, TextblockCreationAttrs> {
+export class Textblock extends Model<Textblock, TextblockCreationAttrs> {
     @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
     @Column({
         type: DataType.INTEGER,
@@ -29,13 +28,13 @@ export class Textblock extends Model<Model, TextblockCreationAttrs> {
         example: 'Обычный заголовок',
         description: 'Название текстбокса',
     })
-    @Column({ type: DataType.STRING, defaultValue: 'title' })
+    @Column({ type: DataType.STRING, defaultValue: 'e' })
     title: string;
 
     @ApiProperty({ example: 'lorem ipsum...', description: 'Основной текст' })
     @Column({
         type: DataType.TEXT,
-        defaultValue: 'description',
+        defaultValue: '',
     })
     text: string;
 
@@ -43,7 +42,7 @@ export class Textblock extends Model<Model, TextblockCreationAttrs> {
         example: 'path/to/image',
         description: 'Путь до изображения',
     })
-    @Column({ type: DataType.STRING })
+    @Column({ type: DataType.STRING, defaultValue: ''})
     image: string;
 
     @ApiProperty({
@@ -52,7 +51,7 @@ export class Textblock extends Model<Model, TextblockCreationAttrs> {
     })
     @Column({
         type: DataType.STRING,
-        defaultValue: 'main',
+        defaultValue: '',
     })
     group: string;
 }
