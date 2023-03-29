@@ -7,6 +7,9 @@ import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { AbilityModule } from './ability/ability.module';
 import { TextblockModule } from './textblock/textblock.module';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
     controllers: [],
@@ -15,6 +18,10 @@ import { TextblockModule } from './textblock/textblock.module';
         // Переменные окружения
         ConfigModule.forRoot({
             envFilePath: `.${process.env.NODE_ENV}.env`,
+        }),
+        // Раздача статики
+        ServeStaticModule.forRoot({
+            rootPath: path.resolve(__dirname, 'static'),
         }),
         // Конфигурация ORM
         SequelizeModule.forRoot({
@@ -33,6 +40,7 @@ import { TextblockModule } from './textblock/textblock.module';
         ProfileModule,
         AbilityModule,
         TextblockModule,
+        FilesModule,
     ],
 })
 export class AppModule {}

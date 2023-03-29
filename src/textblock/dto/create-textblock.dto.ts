@@ -17,12 +17,12 @@ export class CreateTextblockDto {
     @IsString({ message: 'Должно быть строкой' })
     readonly text: string;
 
-    @ApiProperty({
+    /* @ApiProperty({
         example: 'path/to/image',
         description: 'Путь до изображения',
     })
     @IsString({ message: 'Должно быть строкой' })
-    readonly image: string;
+    readonly image: string; */
 
     @ApiProperty({
         example: 'main-page',

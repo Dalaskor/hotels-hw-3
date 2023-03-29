@@ -7,8 +7,11 @@ import {
     Post,
     Put,
     Query,
+    UploadedFile,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -27,8 +30,12 @@ export class TextblockController {
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
     @Post()
-    create(@Body() textblockDto: CreateTextblockDto) {
-        return this.textblockService.create(textblockDto);
+    @UseInterceptors(FileInterceptor('image'))
+    create(
+        @Body() textblockDto: CreateTextblockDto,
+        @UploadedFile() image: any,
+    ) {
+        return this.textblockService.create(textblockDto, image);
     }
 
     @ApiOperation({
@@ -57,8 +64,13 @@ export class TextblockController {
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
     @Put('/:name')
-    update(@Param('name') name: string, @Body() dto: CreateTextblockDto) {
-        return this.textblockService.update(name, dto);
+    @UseInterceptors(FileInterceptor('image'))
+    update(
+        @Param('name') name: string,
+        @Body() dto: CreateTextblockDto,
+        @UploadedFile() image: any,
+    ) {
+        return this.textblockService.update(name, dto, image);
     }
 
     @ApiOperation({ summary: 'Удалить текстовый блок по имени' })

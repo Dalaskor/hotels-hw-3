@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { FilesService } from 'src/files/files.service';
 import { CreateTextblockDto } from './dto/create-textblock.dto';
 import { Textblock } from './textblock.model';
 
@@ -7,9 +8,10 @@ import { Textblock } from './textblock.model';
 export class TextblockService {
     constructor(
         @InjectModel(Textblock) private textblockRepository: typeof Textblock,
+        private fileService: FilesService,
     ) {}
 
-    async create(dto: CreateTextblockDto) {
+    async create(dto: CreateTextblockDto, image: any) {
         const checkName = await this.textblockRepository.findOne({
             where: { name: dto.name },
         });
@@ -21,7 +23,11 @@ export class TextblockService {
             );
         }
 
-        const textblock = await this.textblockRepository.create(dto);
+        const fileName = await this.fileService.createFile(image);
+        const textblock = await this.textblockRepository.create({
+            ...dto,
+            image: fileName,
+        });
 
         return textblock;
     }
@@ -54,17 +60,18 @@ export class TextblockService {
         return textblock;
     }
 
-    async update(name: string, dto: CreateTextblockDto) {
+    async update(name: string, dto: CreateTextblockDto, image) {
         const textblock = await this.textblockRepository.findOne({
             where: { name },
         });
 
+        const fileName = await this.fileService.createFile(image);
         if (textblock) {
             textblock.set('name', dto.name);
             textblock.set('title', dto.title);
             textblock.set('text', dto.text);
-            textblock.set('image', dto.image);
             textblock.set('group', dto.group);
+            textblock.set('image', fileName);
             textblock.save();
 
             return textblock;
