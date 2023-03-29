@@ -91,7 +91,7 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 # curl -v localhost:5000/textblock \
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
-#     -d '{"name": "main-page-hero", "title": "Title", "text": "This is textblock", "image": "test/path.jpg", "group":"main"}' \
+#     -d '{"name": "extra-page-hero", "title": "Title", "text": "This is textblock", "image": "test/path.jpg", "group":"extra"}' \
 #     | jq
 
 # GET Get all textblocks
@@ -99,6 +99,12 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
 #     | jq
+
+# GET Get all textblocks with filter
+curl -v localhost:5000/textblock?group=main \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $token" \
+    | jq
 
 # GET Get one by name textblock
 # curl -v localhost:5000/textblock/main-page-hero \

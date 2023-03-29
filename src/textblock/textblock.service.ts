@@ -26,10 +26,17 @@ export class TextblockService {
         return textblock;
     }
 
-    async getAll() {
-        const textblocks = await this.textblockRepository.findAll();
-
-        return textblocks;
+    async getAll(query) {
+        if (query.group) {
+            // Фильтрация по группе через query параметры
+            const textblocks = await this.textblockRepository.findAll({
+                where: { group: query.group },
+            });
+            return textblocks;
+        } else {
+            const textblocks = await this.textblockRepository.findAll();
+            return textblocks;
+        }
     }
 
     async getOneByName(name: string) {

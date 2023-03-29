@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -21,20 +31,23 @@ export class TextblockController {
         return this.textblockService.create(textblockDto);
     }
 
-    @ApiOperation({ summary: 'Получить список всех тектовых блоков' })
+    @ApiOperation({
+        summary:
+            'Получить список всех тектовых блоков или с фильтром по группе через query параметры',
+    })
     @ApiResponse({ status: 200, type: [Textblock] })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
     @Get()
-    getAll() {
-        return this.textblockService.getAll();
+    getAll(@Query() query) {
+        return this.textblockService.getAll(query);
     }
 
     @ApiOperation({ summary: 'Получить текстовый блок по уникальному имени' })
     @ApiResponse({ status: 200, type: Textblock })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Get("/:name")
+    @Get('/:name')
     getOneByName(@Param('name') name: string) {
         return this.textblockService.getOneByName(name);
     }
@@ -43,7 +56,7 @@ export class TextblockController {
     @ApiResponse({ status: 200, type: Textblock })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Put("/:name")
+    @Put('/:name')
     update(@Param('name') name: string, @Body() dto: CreateTextblockDto) {
         return this.textblockService.update(name, dto);
     }
@@ -52,7 +65,7 @@ export class TextblockController {
     @ApiResponse({ status: 200, type: Textblock })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Delete("/:name")
+    @Delete('/:name')
     delete(@Param('name') name: string) {
         return this.textblockService.delete(name);
     }
