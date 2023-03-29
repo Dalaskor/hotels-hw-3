@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -45,6 +45,8 @@ export class UsersController {
      */
     @ApiOperation({ summary: 'Получить пользователя по id' })
     @ApiResponse({ status: 200, type: User })
+    @Roles(ROLES.ADMIN)
+    @UseGuards(RolesGuard)
     @Get('/:id')
     getById(@Param('id') id: number) {
         return this.usersService.getUserById(id);
@@ -57,7 +59,7 @@ export class UsersController {
     @ApiResponse({ status: 200 })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Post('/role')
+    @Put('/role')
     addRole(@Body() dto: AddRoleDto) {
         return this.usersService.addRole(dto);
     }
@@ -69,7 +71,7 @@ export class UsersController {
     @ApiResponse({ status: 200 })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Post('/role-remove')
+    @Put('/role-remove')
     removeRole(@Body() dto: AddRoleDto) {
         return this.usersService.removeRole(dto);
     }

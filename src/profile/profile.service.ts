@@ -1,4 +1,5 @@
 import {
+    ForbiddenException,
     HttpException,
     HttpStatus,
     Injectable,
@@ -6,8 +7,11 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
+import {
+    AbilityFactory,
+    Action,
+} from 'src/ability/ability.factory/ability.factory';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './profile.model';
 
 @Injectable()
@@ -16,6 +20,7 @@ export class ProfileService {
     constructor(
         @InjectModel(Profile) private profileRepository: typeof Profile,
         private jwtService: JwtService,
+        private abilityFactory: AbilityFactory,
     ) {}
 
     /**
@@ -32,31 +37,31 @@ export class ProfileService {
      * Сервис для получения объекта Profile по идентификатору модели User
      * @param {number} fk_profileid Идентификатор пользователя из модели User
      */
-    async getById(fk_profileid: number, req) {
+    async getById(fk_profileid: number) {
         const profile = await this.profileRepository.findOne({
             where: { fk_profileid },
             include: { all: true },
         });
-
-        const user = this.getUserFromReq(req);
-
-        if (user.id === profile.fk_profileid) {
-            return profile;
-        }
-
-        throw new HttpException('Нет доступа', HttpStatus.FORBIDDEN);
+        return profile;
     }
 
     /**
      * Сервис для редактирования объекта модели Profile
      * @param {CreateProfileDto} dto DTO с данными для Profile
      */
-    async updateProfile(dto: UpdateProfileDto) {
-        // const profile = await this.getById(dto.userId, 'gg');
+    async updateProfile(userId: number, dto: CreateProfileDto, req) {
         const profile = await this.profileRepository.findOne({
-            where: { fk_profileid: dto.userId },
+            where: { fk_profileid: userId },
             include: { all: true },
         });
+
+        const user = this.getUserFromReq(req);
+        const ability = this.abilityFactory.profileForUser(user);
+        const isAllowed = ability.can(Action.Update, profile);
+
+        if (!isAllowed) {
+            throw new ForbiddenException('Нет доступа');
+        }
 
         if (profile) {
             profile.set('name', dto.name);
@@ -70,14 +75,18 @@ export class ProfileService {
             return dto;
         }
 
-        throw new HttpException(
-            'Пользователь или роль не найдены',
-            HttpStatus.NOT_FOUND,
-        );
+        throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND);
     }
 
     getUserFromReq(req) {
         const authHeader = req.headers.authorization;
+
+        if (authHeader === undefined) {
+            throw new UnauthorizedException({
+                message: 'Пользователь не авторизован',
+            });
+        }
+
         const bearer = authHeader.split(' ')[0];
         const token = authHeader.split(' ')[1];
 

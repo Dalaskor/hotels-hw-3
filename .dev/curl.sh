@@ -1,6 +1,6 @@
 #!/bin/sh
 
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByb2ZpbGV1c2VyMUBtYWlsLnJ1IiwiaWQiOjYsInJvbGVzIjpbeyJpZCI6MiwidmFsdWUiOiJVU0VSIiwiZGVzY3JpcHRpb24iOiJBZG1pbiBmb3IgdGVzdGluZyIsImNyZWF0ZWRBdCI6IjIwMjMtMDMtMjhUMDU6NDU6NTUuNTM0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDMtMjhUMDU6NDU6NTUuNTM0WiIsIlVzZXJSb2xlcyI6eyJpZCI6Niwicm9sZUlkIjoyLCJ1c2VySWQiOjZ9fV0sImlhdCI6MTY4MDAwNTU3OSwiZXhwIjoxNjgwMDkxOTc5fQ.GFzWkffoXXoT4NIxKePjucdSgyjw_wJp8SUHYNYgTFw"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByb2ZpbGV1c2VyMUBtYWlsLnJ1IiwiaWQiOjYsInJvbGVzIjpbeyJpZCI6MiwidmFsdWUiOiJVU0VSIiwiZGVzY3JpcHRpb24iOiJBZG1pbiBmb3IgdGVzdGluZyIsImNyZWF0ZWRBdCI6IjIwMjMtMDMtMjhUMDU6NDU6NTUuNTM0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDMtMjhUMDU6NDU6NTUuNTM0WiIsIlVzZXJSb2xlcyI6eyJpZCI6Niwicm9sZUlkIjoyLCJ1c2VySWQiOjZ9fV0sImlhdCI6MTY4MDA3NzU0MCwiZXhwIjoxNjgwMTYzOTQwfQ.scnHD7hQII_sbr4U4WP6EICEXuSyzA_-3MucpCsVkpE"
 
 # Create User
 # curl -v localhost:5000/users \
@@ -68,10 +68,10 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByb2ZpbGV1c2VyMUBtYWls
 #     | jq
 
 # Get profile by id with JWT
-curl -v localhost:5000/profile/6 \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $token" \
-    | jq
+# curl -v localhost:5000/profile/6 \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $token" \
+#     | jq
 
 # Get user by id with JWT
 # curl -v localhost:5000/users/7 \
@@ -80,8 +80,9 @@ curl -v localhost:5000/profile/6 \
 #     | jq
 
 # Update profile by id with JWT
-# curl -v localhost:5000/profile \
-#      -H "Content-Type: application/json" \
-#      -H "Authorization: Bearer $token" \
-#      -d '{"name": "Valera", "userId": "6"}' \
-#      | jq
+curl -v localhost:5000/profile/6 \
+     -X PUT \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer $token" \
+     -d '{"name": "Jotaro", "surname":"Kudjo"}' \
+     | jq

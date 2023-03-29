@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
+import { AbilityModule } from './ability/ability.module';
+import { TextblockModule } from './textblock/textblock.module';
 
 @Module({
     controllers: [],
@@ -29,6 +31,8 @@ import { ProfileModule } from './profile/profile.module';
         RolesModule,
         AuthModule,
         ProfileModule,
+        AbilityModule,
+        TextblockModule,
     ],
 })
 export class AppModule {}
