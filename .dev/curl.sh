@@ -1,6 +1,6 @@
 #!/bin/sh
 
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1IiwiaWQiOjMsInJvbGVzIjpbeyJpZCI6MSwidmFsdWUiOiJBRE1JTiIsImRlc2NyaXB0aW9uIjoiQWRtaW4gZm9yIHRlc3RpbmciLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJVc2VyUm9sZXMiOnsiaWQiOjIsInJvbGVJZCI6MSwidXNlcklkIjozfX1dLCJpYXQiOjE2ODAwODM1MTIsImV4cCI6MTY4MDE2OTkxMn0.wWpOqDYAd3aYDgaxK_fyLu4zA6M9IZBQ03sTRJ7tvfI"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1IiwiaWQiOjMsInJvbGVzIjpbeyJpZCI6MSwidmFsdWUiOiJBRE1JTiIsImRlc2NyaXB0aW9uIjoiQWRtaW4gZm9yIHRlc3RpbmciLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTI4VDA1OjQ1OjQxLjAzN1oiLCJVc2VyUm9sZXMiOnsiaWQiOjIsInJvbGVJZCI6MSwidXNlcklkIjozfX1dLCJpYXQiOjE2ODAxNjk5NTUsImV4cCI6MTY4MDI1NjM1NX0.GMqG11hKzknwzsB9Pt2hlQFsvtbNHp9OQNySc_hcUuc"
 
 # Create User
 # curl -v localhost:5000/users \
@@ -55,9 +55,10 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 
 # Add role to user with JWT
 # curl -v localhost:5000/users/role \
+#     -X PUT \
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \
-#     -d '{"value": "ADMIN", "userId": "2"}' \
+#     -d '{"value": "USER", "userId": "3"}' \
 #     | jq
 
 # Remove role to user with JWT
@@ -95,12 +96,14 @@ token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluMUBtYWlsLnJ1Iiwi
 #     | jq
 
 # POST Create textblock with file
-curl -v localhost:5000/textblock \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $token" \
-    -d '{"name": "extra-page-hero", "title": "Title", "text": "This is textblock", "group":"extra"}' \
-    -F image=@C:\Users\d4las\Pictures\Avatars\ava_1.jpg \
-    | jq
+# curl -v localhost:5000/textblock \
+#     -H "Authorization: Bearer $token" \
+#     -F "name=test1" \
+#     -F "title=Title for textblock" \
+#     -F "text=This is text" \
+#     -F "group=extra" \
+#     -F "image=@/mnt/c/Users/d4las/Pictures/Avatars/ava_1.jpg" \
+#     | jq
 
 # GET Get all textblocks
 # curl -v localhost:5000/textblock \
@@ -129,7 +132,7 @@ curl -v localhost:5000/textblock \
 #     | jq
 
 # DELETE Delete textblock
-# curl -v localhost:5000/textblock/main-page-hero \
+# curl -v localhost:5000/textblock/test1 \
 #     -X DELETE \
 #     -H "Content-Type: application/json" \
 #     -H "Authorization: Bearer $token" \

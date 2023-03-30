@@ -28,13 +28,12 @@ export class Textblock extends Model<Textblock, TextblockCreationAttrs> {
         example: 'Обычный заголовок',
         description: 'Название текстбокса',
     })
-    @Column({ type: DataType.STRING, defaultValue: 'e' })
+    @Column({ type: DataType.STRING})
     title: string;
 
     @ApiProperty({ example: 'lorem ipsum...', description: 'Основной текст' })
     @Column({
         type: DataType.TEXT,
-        defaultValue: '',
     })
     text: string;
 
@@ -42,7 +41,7 @@ export class Textblock extends Model<Textblock, TextblockCreationAttrs> {
         example: 'path/to/image',
         description: 'Путь до изображения',
     })
-    @Column({ type: DataType.STRING, defaultValue: ''})
+    @Column({ type: DataType.STRING})
     image: string;
 
     @ApiProperty({
@@ -51,7 +50,6 @@ export class Textblock extends Model<Textblock, TextblockCreationAttrs> {
     })
     @Column({
         type: DataType.STRING,
-        defaultValue: '',
     })
     group: string;
 }

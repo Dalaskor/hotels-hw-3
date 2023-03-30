@@ -29,6 +29,12 @@ export class TextblockService {
             image: fileName,
         });
 
+        await this.fileService.saveFileWithName(
+            fileName,
+            'textblocks',
+            textblock.id,
+        );
+
         return textblock;
     }
 
@@ -89,6 +95,7 @@ export class TextblockService {
         });
 
         if (textblock) {
+            await this.fileService.stopUsing(textblock.image);
             await textblock.destroy();
 
             return 'Объект успешно удален';
