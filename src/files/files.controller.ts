@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Post,
     UploadedFile,
     UseGuards,
@@ -34,7 +35,7 @@ export class FilesController {
     @ApiResponse({ status: 200, type: File })
     @Roles(ROLES.ADMIN)
     @UseGuards(RolesGuard)
-    @Post('/remove-not-used')
+    @Delete('/remove-not-used')
     removeOld() {
         this.fileService.deleteAllTempFiles();
     }
