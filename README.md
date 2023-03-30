@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Docker
+- docker
 - docker-compose
 
 ## Installation
