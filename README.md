@@ -1,5 +1,10 @@
 # Hotels.ru Home Work#3
 
+## Requirements
+
+- Docker
+- docker-compose
+
 ## Installation
 
 ```console
